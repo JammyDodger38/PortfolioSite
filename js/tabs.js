@@ -2,9 +2,9 @@ const tabButtons = document.querySelectorAll('.design-list__item')
 const tabDescription = document.querySelectorAll('.design__descr')
 const tabImages = document.querySelectorAll('.design-images')
 const tabBlockImage = document.querySelectorAll('.feature__img')
-const documentTitle = document.querySelector('head > title')
+const tabTitle = document.querySelectorAll('.design__title')
 
-documentTitle.textContent = tabButtons[0].textContent
+
 
 const changeContent = (array, value) => {
     array.forEach((elem) => {
@@ -16,15 +16,29 @@ const changeContent = (array, value) => {
     })
 }
 
+const changeTitle = (array) => {
+    array.forEach(item => {
+        if (!item.classList.contains('hidden')) {
+            document.title = item.textContent
+        }
+    });
+}
+
+changeTitle(tabTitle)
+
 tabButtons.forEach((tabButton) => {
     tabButton.addEventListener('click', (e) => {
-        documentTitle.textContent = e.target.textContent
         const dataValue = tabButton.dataset.tabsHandler
-
+        
         changeContent(tabDescription, dataValue)
         changeContent(tabImages, dataValue)
         changeContent(tabBlockImage, dataValue)
 
+        tabTitle.forEach(item => {
+            item.classList.toggle('hidden')
+        })
+        changeTitle(tabTitle)
+        
         tabButtons.forEach(btn => {
             if (btn === e.target) {
                 e.target.classList.add('design-list__item_active')
